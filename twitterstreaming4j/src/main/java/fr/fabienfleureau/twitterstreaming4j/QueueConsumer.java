@@ -1,6 +1,7 @@
 package fr.fabienfleureau.twitterstreaming4j;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
@@ -11,6 +12,8 @@ import java.util.logging.Logger;
 
 public class QueueConsumer<T> implements Runnable {
 	
+	private static final int POLLING_DELAY = 5000;
+
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 	
 	private List<Consumer<T>> consumers = new CopyOnWriteArrayList<>();
@@ -33,8 +36,8 @@ public class QueueConsumer<T> implements Runnable {
 	public void run() {
 		while(!stop.get()) {
 			try {
-				T head = blockingQueue.poll(5000, TimeUnit.MILLISECONDS);
-				consumers.forEach(consumer -> consumer.accept(head));
+				Optional<T> optional = Optional.ofNullable(blockingQueue.poll(POLLING_DELAY, TimeUnit.MILLISECONDS));
+				optional.ifPresent(head -> consumers.forEach(consumer -> consumer.accept(head)));
 			} catch (InterruptedException interruptedException) {
 				logger.log(Level.SEVERE, interruptedException.getMessage(), interruptedException);
 			}

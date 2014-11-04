@@ -53,4 +53,21 @@ public class QueueConsumerTest {
 		queueConsumer.stop();
 	}
 
+	@Test
+	public void shouldNotConsumeNull() throws InterruptedException {
+		AtomicBoolean booleanTrueWhenConsumingNull = new AtomicBoolean(false);
+		QueueConsumer<String> queueConsumer = new QueueConsumer<>(blockingQueue);
+		queueConsumer.addConsumer(str -> {
+			if (str == null) {
+				booleanTrueWhenConsumingNull.compareAndSet(false, true);
+			}
+		});
+		Executors.newSingleThreadExecutor().execute(queueConsumer);
+		assertTrue(!booleanTrueWhenConsumingNull.get());
+		Thread.sleep(6000);
+		assertTrue(!booleanTrueWhenConsumingNull.get());
+		queueConsumer.stop();
+
+	}
+	
 }
