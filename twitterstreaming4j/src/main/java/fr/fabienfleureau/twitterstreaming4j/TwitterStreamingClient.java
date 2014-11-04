@@ -19,6 +19,8 @@ import com.twitter.hbc.httpclient.auth.Authentication;
 
 public class TwitterStreamingClient implements Client {
 
+	private static final int MAX_TWEETS_CAPACITY = 10000;
+
 	private Authentication authentication;
 	
 	private List<String> terms;
@@ -30,7 +32,7 @@ public class TwitterStreamingClient implements Client {
 	public TwitterStreamingClient(Authentication authentication) {
 		this.authentication = authentication;
 		this.terms = new ArrayList<>();
-		this.queue = new LinkedBlockingQueue<String>();
+		this.queue = new LinkedBlockingQueue<String>(MAX_TWEETS_CAPACITY);
 		this.queueConsumer = new QueueConsumer<>(queue);
 	}
 
