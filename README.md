@@ -7,12 +7,12 @@ Usage:
 
 ```java
 Authentication auth = new BasicAuth(twitterUsername, twitterPassword);
-		TwitterStreamingClient streamingClient = new TwitterStreamingClient(auth)
-			.stream("twitter")
-			.addConsumer(tweet -> System.out.println("New Tweet -> " + tweet));
-		streamingClient.connect();
-		Thread.sleep(10000);
-		streamingClient.stop();
+TwitterStreamingClient streamingClient = new TwitterStreamingClient(auth)
+	.stream("twitter")
+	.addConsumer(tweet -> System.out.println("New Tweet -> " + tweet));
+streamingClient.connect();
+Thread.sleep(10000);
+streamingClient.stop();
 ```
 
 This example will print tweets containing "twitter" during 10 seconds.
