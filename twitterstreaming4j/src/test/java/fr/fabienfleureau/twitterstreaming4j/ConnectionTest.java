@@ -30,10 +30,10 @@ public class ConnectionTest {
 			token = prop.getProperty("token");
 			secret = prop.getProperty("secret");
 		} catch (Exception exception) { 
-			consumerKey = System.getProperty("consumerKey");
-			consumerSecret = System.getProperty("consumerSecret");
-			token = System.getProperty("token");
-			secret = System.getProperty("secret");
+			consumerKey = System.getenv("consumerKey");
+			consumerSecret = System.getenv("consumerSecret");
+			token = System.getenv("token");
+			secret = System.getenv("secret");
 		}
 		oAuth1 = new OAuth1(consumerKey, consumerSecret, token, secret);
 	}
