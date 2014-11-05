@@ -3,7 +3,6 @@ package fr.fabienfleureau.twitterstreaming4j;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -18,12 +17,25 @@ public class ConnectionTest {
 	private OAuth1 oAuth1;
 
 	@Before
-	public void readTwitterProperties() throws IOException {
+	public void readTwitterProperties() {
+		String consumerKey = null;
+		String consumerSecret = null;
+		String token = null;
+		String secret = null;
 		Properties prop = new Properties();
 		try(InputStream inputStream = getClass().getResourceAsStream("/twitter.properties")) {
 			prop.load(inputStream);
+			consumerKey = prop.getProperty("consumerKey");
+			consumerSecret = prop.getProperty("consumerSecret");
+			token = prop.getProperty("token");
+			secret = prop.getProperty("secret");
+		} catch (Exception exception) { 
+			consumerKey = System.getProperty("consumerKey");
+			consumerSecret = System.getProperty("consumerSecret");
+			token = System.getProperty("token");
+			secret = System.getProperty("secret");
 		}
-		oAuth1 = new OAuth1(prop.getProperty("consumerKey"), prop.getProperty("consumerSecret"), prop.getProperty("token"), prop.getProperty("secret"));
+		oAuth1 = new OAuth1(consumerKey, consumerSecret, token, secret);
 	}
 	
 	@Test
