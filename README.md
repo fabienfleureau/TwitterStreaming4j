@@ -1,6 +1,8 @@
 TwitterStreaming4j
 ==================
 
+[ ![Codeship Status for fabienfleureau/TwitterStreaming4j](https://www.codeship.io/projects/ced4e630-46ad-0132-b588-6603b1374d14/status)](https://www.codeship.io/projects/45383)
+
 This application can be used to stream twitter terms.
 
 Usage:
